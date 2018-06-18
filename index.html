@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>Neighborhood Map</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/css.css">
+	<script src="js/lib/knockout-3.2.0.js"></script>
+  </head>
+  <body>
+	
+	
+	<div class="container row">
+		<div class="col-sm-3 col-xs-4">
+			<span class="OpenButton" onclick="openNav()">&#9776; Locations</span>
+		</div>
+		<div class="col-sm-6 col-xs-5">
+			<form class="searchBox">
+				<input id="searchInput" data-bind="value: query, valueUpdate: 'keyup'" 
+				placeholder="Search.." onkeyup="filtering()" type="text"></input>
+				<!--data-bind="value: query, valueUpdate: 'keyup'" -->
+				<a class="btn btn-primary" href="#" data-bind="click: flickr">Fetch Flickr Photos</a>
+			</form>
+		</div>
+		<div class="col-sm-3 col-xs-3">
+			<h3 class="title"> Cricket Stadiums </h3>
+		</div>
+	</div>
+	<div id="mySidenav" class="sidenav">
+		<ul id="placesList" data-bind="foreach: filterMarks">
+				<li>
+					<a class="places" data-bind="click: $parent.showStreetView.bind($data,$data.lat(), $data.lng())" href="#pano">
+						<!-- had to use $parent.fnction.bind($data, param), for avoiding the firing of the function on the load -->
+						<span class="places" data-bind="text: name"></span>
+					</a>
+				</li>
+		</ul>
+		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	</div>
+	
+	<div class="container row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10" id="map"></div>
+		<div class="col-sm-1"></div>
+	</div>
+	<div class="container row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10" id="pano"></div>
+		<div class="col-sm-1"></div>
+	</div>
+	<script>
+        function googleSuccess() {
+            console.log("Google Maps sucessfully loaded.")
+        };
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUsrJRmVBVHx7PkwAvd7cY6rDHGxfARKU&callback=googleSuccess">
+    </script>
+	<script src="js/app.js"></script>
+	<script src="js/map.js"></script>
+  </body>
+</html>
+
+<!--
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Place details</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script>
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -33.866, lng: 151.196},
+          zoom: 15
+        });
+
+        var infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+
+        service.getDetails({
+          placeId: 'ChIJN1t_tDeuEmsRUsoyG83frY4'
+        }, function(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+                'Place ID: ' + place.place_id + '<br>' +
+                place.formatted_address + '</div>');
+              infowindow.open(map, this);
+            });
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUsrJRmVBVHx7PkwAvd7cY6rDHGxfARKU&callback&libraries=places&callback=initMap">
+    </script>
+  </body>
+</html>
+   -->   
